@@ -272,7 +272,13 @@ def adjust_bill(pf, new_bill):
 
 @login_required
 def billing(request):
-    tenant_pf = TenantProfile.objects.order_by("room_no")
+
+    #bill_date = cur_date
+    cur_date = datetime.datetime.now().date()
+    # ------------------------------------
+    tenant_pf = TenantProfile.objects.filter(start_date__lt=cur_date).order_by("room_no")
+    # ------------------------------------
+    # tenant_pf = TenantProfile.objects.order_by("room_no")
 
     rm101a_form = None
     rm102a_form = None
