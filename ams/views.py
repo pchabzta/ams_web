@@ -272,8 +272,7 @@ def adjust_bill(pf, new_bill):
 
 @login_required
 def billing(request):
-
-    #bill_date = cur_date
+    # bill_date = cur_date
     cur_date = datetime.datetime.now().date()
     # ------------------------------------
     tenant_pf = TenantProfile.objects.filter(start_date__lt=cur_date).order_by("room_no")
@@ -2319,18 +2318,12 @@ def tenant_bill_subroutine(tn_bill):
     cur_yr = bill_dt.year
     cur_th_mth = get_thai_month_name(str(bill_dt))
     cur_th_yr = get_thai_year(str(bill_dt))
-    #-----------------------------------------------------------
-
-
-    if cur_mth+1 >12:
+    # -----------------------------------------------------------
+    if cur_mth + 1 > 12:
         next_dt_mth = datetime.date(cur_yr, 1, 15)
     else:
         next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15)
-
-
-    # next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15) # OLD NOK
-
-    #-----------------------------------------------------------
+    # -----------------------------------------------------------
 
     next_th_m = get_thai_month_name(str(next_dt_mth))
 
