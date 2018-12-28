@@ -2314,15 +2314,30 @@ def tenant_page(request):
 def tenant_bill_subroutine(tn_bill):
     bill_dt = tn_bill.bill_date
     pay_date = tn_bill.payment_date
+
     cur_mth = bill_dt.month
     cur_yr = bill_dt.year
+
     cur_th_mth = get_thai_month_name(str(bill_dt))
     cur_th_yr = get_thai_year(str(bill_dt))
+
+    next_th_yr = cur_th_yr
+
     # -----------------------------------------------------------
     if cur_mth + 1 > 12:
-        next_dt_mth = datetime.date(cur_yr, 1, 15)
+
+        next_mth = 1
+        next_yr = cur_yr + 1
+
+        new_dt = datetime.date(next_yr, next_mth, 15)
+
+        next_dt_mth = datetime.date(next_yr, next_mth, 15)
+
+        next_th_yr = get_thai_year(str(new_dt))
+
     else:
         next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15)
+
     # -----------------------------------------------------------
 
     next_th_m = get_thai_month_name(str(next_dt_mth))
@@ -2347,7 +2362,7 @@ def tenant_bill_subroutine(tn_bill):
     else:
         bill_total = tn_bill.bill_total
 
-    return room_with_acc_cost, bill_misc, bill_total, paid_str, cur_th_mth, next_th_m, cur_th_yr
+    return room_with_acc_cost, bill_misc, bill_total, paid_str, cur_th_mth, next_th_m, cur_th_yr, next_th_yr
 
 
 @login_required
@@ -2368,14 +2383,14 @@ def tenant_bill(request):
                 bill_month = str(datetime.datetime.now().month - 1)
                 tn_bill = get_object_or_404(Billing, tenant_name=tenant, status='close', bill_date__month=bill_month)
 
-        room_with_acc_cost, bill_misc, bill_total, paid_str, cur_th_mth, next_th_m, cur_th_yr = tenant_bill_subroutine(
+        room_with_acc_cost, bill_misc, bill_total, paid_str, cur_th_mth, next_th_m, cur_th_yr, next_th_yr = tenant_bill_subroutine(
             tn_bill)
 
         return render(request, 'ams/tenant_bill.html',
                       {'section': 'bill', 'tn_bill': tn_bill, 'room_with_acc_cost': room_with_acc_cost,
                        'bill_misc': bill_misc, 'bill_total': bill_total, 'cur_th_mth': cur_th_mth,
                        'next_th_m': next_th_m,
-                       'cur_th_yr': cur_th_yr, 'paid_str': paid_str})
+                       'cur_th_yr': cur_th_yr, 'next_th_yr': next_th_yr, 'paid_str': paid_str})
     else:
 
         # NEW TENANT
