@@ -2319,7 +2319,19 @@ def tenant_bill_subroutine(tn_bill):
     cur_yr = bill_dt.year
     cur_th_mth = get_thai_month_name(str(bill_dt))
     cur_th_yr = get_thai_year(str(bill_dt))
-    next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15)
+    #-----------------------------------------------------------
+
+
+    if cur_mth+1 >12:
+        next_dt_mth = datetime.date(cur_yr, 1, 15)
+    else:
+        next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15)
+
+
+    # next_dt_mth = datetime.date(cur_yr, cur_mth + 1, 15) # OLD NOK
+
+    #-----------------------------------------------------------
+
     next_th_m = get_thai_month_name(str(next_dt_mth))
 
     room_with_acc_cost = tn_bill.room_cost + tn_bill.room_acc_cost + tn_bill.adjust
