@@ -1558,12 +1558,11 @@ def monthly_report(request):
     mnth_name = get_eng_month_name(mnth)
     yr = int(request.POST['year'])
 
-    # start_date = datetime.date(yr, mnth, 1)
-    # end_date = datetime.date(yr, mnth, 30) # USE 30 TO AVOID OUT-OF-IDX RANGE
+    no_of_day_in_cur_month = calendar.monthrange(yr, mnth)[1]
 
     # --------------------------------------------------------------------------
     start_date = datetime.datetime(yr, mnth, 1)
-    end_date = datetime.datetime(yr, mnth, 30)  # USE 30 TO AVOID OUT OF INDX RANGE
+    end_date = datetime.datetime(yr, mnth, no_of_day_in_cur_month)
 
     start_date = start_date.date()
     end_date = end_date.date()
@@ -1806,12 +1805,11 @@ def monthly_report_mini(request):
     mnth_name = get_eng_month_name(mnth)
     yr = int(request.POST['year'])
 
-    # start_date = datetime.date(yr, mnth, 1)
-    # end_date = datetime.date(yr, mnth, 30) # USE 30 TO AVOID OUT-OF-IDX RANGE
+    no_of_day_in_cur_month = calendar.monthrange(yr, mnth)[1]
 
     # --------------------------------------------------------------------------
     start_date = datetime.datetime(yr, mnth, 1)
-    end_date = datetime.datetime(yr, mnth, 30)  # USE 30 TO AVOID OUT OF INDX RANGE
+    end_date = datetime.datetime(yr, mnth, no_of_day_in_cur_month)
 
     start_date = start_date.date()
     end_date = end_date.date()
@@ -1967,6 +1965,7 @@ def monthly_report_mini(request):
 
 
 # -------------------------------------------------------------------------------------------
+
 
 @login_required
 def extra_service(request):
